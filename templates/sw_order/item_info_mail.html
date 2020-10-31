@@ -5,3 +5,17 @@
 {% if model.item %}
     Товар: {{model.item.title}}
 {% endif %}
+
+
+{% if attrs %}
+Атрибути:
+{% for attribute in attrs %}
+  {% if attribute.item_attribute_values.exists %}
+  {{attribute.item_attribute.name}}:
+  {% for value in attribute.item_attribute_values %}{{value.value}};{% endfor %}
+  {% endif %}
+{% endfor %}
+{% endif %}
+
+
+

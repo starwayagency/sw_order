@@ -1,6 +1,6 @@
 from django import forms 
 from .models import OrderStatus
-from sw_utils.sw_global_config.models import GlobalTag
+from box.core.sw_global_config.models import GlobalTag
 
 
 class ChangeStatusForm(forms.Form):

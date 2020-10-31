@@ -2,9 +2,9 @@ from django.db import models
 from django.contrib.auth import get_user_model 
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
-from sw_utils.sw_solo.models import SingletonModel
-from sw_utils.mail import box_send_mail
-from sw_utils.models import AbstractRecipientEmail
+from box.core.sw_solo.models import SingletonModel
+from box.core.mail import box_send_mail
+from box.core.models import AbstractRecipientEmail
 from colorfield.fields import ColorField
 
 User = get_user_model()
@@ -40,7 +40,6 @@ class OrderAdditionalPrice(models.Model):
       verbose_name_plural = _("емейли для сповіщень про замовлення")
 
 
-
 class OrderRecipientEmail(AbstractRecipientEmail):
   config = models.ForeignKey(
     verbose_name=_("Налаштування"),to="sw_order.OrderConfig", 
@@ -50,10 +49,11 @@ class OrderRecipientEmail(AbstractRecipientEmail):
       verbose_name = _('емейл для сповіщень про замовлення')
       verbose_name_plural = _("емейли для сповіщень про замовлення")
 
-from sw_shop.sw_cart.models import CartItem
-from sw_shop.sw_cart.utils import get_cart
-from sw_shop.sw_catalog.models import ItemStock 
-from sw_utils.sw_global_config.models import GlobalConfig
+
+from box.apps.sw_shop.sw_cart.models import CartItem
+from box.apps.sw_shop.sw_cart.utils import get_cart
+from box.apps.sw_shop.sw_catalog.models import ItemStock 
+from box.core.sw_global_config.models import GlobalConfig
 
 
 class OrderStatus(models.Model):
@@ -75,13 +75,15 @@ class OrderStatus(models.Model):
     verbose_name = _('статус замовленнь')
     verbose_name_plural = _('cтатуси замовленнь')
 
-
+from decimal import Decimal
 class Order(models.Model):
   user        = models.ForeignKey(
     verbose_name=_("Користувач"), to=User, on_delete=models.SET_NULL, related_name='orders', blank=True, null=True
   )
-  total_price = models.DecimalField(
-    verbose_name=_('Сумма замовлення'), max_digits=10, decimal_places=2, default=0
+  total_price = models.FloatField(
+  # total_price = models.DecimalField(
+    verbose_name=_('Сумма замовлення'), default=0,
+    # max_digits=10, decimal_places=2, 
   )
   name        = models.CharField(
     verbose_name=_('Імя'), max_length=255, blank=True, null=True
@@ -144,13 +146,20 @@ class Order(models.Model):
     cart = get_cart(request)
     self.handle_user(request)
     self.handle_amount(request)
-    self.total_price = cart.total_price
+
+    # self.total_price = cart.total_price
+    total_price = cart.get_price(price_type='total_price')
+    # total_price = Decimal.from_float(total_price)
+    # print("total_price:", total_price)
+    # print("total_price:", type(total_price))
+    self.total_price = total_price 
+    
     self.ordered = True
     self.save()
     cart.order = self 
     cart.ordered = True
     cart.save()
-    from sw_utils.helpers import get_admin_url
+    from box.core.helpers import get_admin_url
     from django.contrib.sites.models import Site 
     site = Site.objects.get_current().domain
     order_admin_url = site + get_admin_url(self)

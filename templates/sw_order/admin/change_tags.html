@@ -1,0 +1,12 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<form action="" method="post">{% csrf_token %}
+    {{ form }}
+    <p>{{text}}:</p>
+    <ul>{{ items|unordered_list }}</ul>
+    <input type="hidden" name="action" value="{{value}}" />
+    <input type="submit" name="apply" value="Сохранить" />
+</form>
+{% endblock %}
+

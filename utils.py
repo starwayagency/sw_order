@@ -1,6 +1,6 @@
 from .models import Order 
-from box.apps.sw_shop.sw_cart.utils import get_cart
-from box.apps.sw_shop.sw_cart.models import CartItem
+from sw_cart.utils import get_cart
+from sw_cart.models import CartItem
 try:
   from box.apps.sw_payment.liqpay.utils import get_liqpay_context
   from box.apps.sw_payment.liqpay.models import LiqpayConfig

@@ -4,11 +4,11 @@ from django.shortcuts import reverse, render, redirect
 from django.utils.html import mark_safe
 from django.conf import settings 
 
-from box.apps.sw_shop.sw_order.models import Order, OrderStatus, Payment
+from sw_order.models import Order, OrderStatus, Payment
 # from box.apps.sw_payment.liqpay.admin import PaymentInline
-from box.apps.sw_shop.sw_cart.admin import CartItemInline
-from box.core.utils import show_admin_link
-from box.core.sw_solo.admin import SingletonModelAdmin
+from sw_cart.admin import CartItemInline
+from sw_utils.utils import show_admin_link
+from sw_solo.admin import SingletonModelAdmin
 
 from .models import *
 from .filters import * 

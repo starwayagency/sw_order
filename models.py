@@ -2,9 +2,9 @@ from django.db import models
 from django.contrib.auth import get_user_model 
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
-from box.core.sw_solo.models import SingletonModel
-from box.core.mail import box_send_mail
-from box.core.models import AbstractRecipientEmail
+from sw_solo.models import SingletonModel
+from sw_utils.mail import box_send_mail
+from sw_utils.models import AbstractRecipientEmail
 from colorfield.fields import ColorField
 
 User = get_user_model()
@@ -50,10 +50,10 @@ class OrderRecipientEmail(AbstractRecipientEmail):
       verbose_name_plural = _("емейли для сповіщень про замовлення")
 
 
-from box.apps.sw_shop.sw_cart.models import CartItem
-from box.apps.sw_shop.sw_cart.utils import get_cart
-from box.apps.sw_shop.sw_catalog.models import ItemStock 
-from box.core.sw_global_config.models import GlobalConfig
+from sw_cart.models import CartItem
+from sw_cart.utils import get_cart
+from sw_catalog.models import ItemStock 
+from sw_global_config.models import GlobalConfig
 
 
 class OrderStatus(models.Model):
@@ -159,7 +159,7 @@ class Order(models.Model):
     cart.order = self 
     cart.ordered = True
     cart.save()
-    from box.core.helpers import get_admin_url
+    from helpers import get_admin_url
     from django.contrib.sites.models import Site 
     site = Site.objects.get_current().domain
     order_admin_url = site + get_admin_url(self)

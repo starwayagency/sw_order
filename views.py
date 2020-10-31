@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 from .models import Payment, Order 
-from box.core.sw_currency.models import Currency
+from sw_currency.models import Currency
 
 from django.http import JsonResponse 
 

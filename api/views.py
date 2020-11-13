@@ -8,7 +8,7 @@ from sw_order.models import ( Order, ItemRequest )
 from sw_catalog.models import Item 
 from sw_cart.utils import get_cart
 from sw_cart.models import Cart, CartItem
-from mail import box_send_mail 
+from sw_utils.mail import box_send_mail 
 from sw_global_config.models import *
 
 from rest_framework.viewsets import ModelViewSet
@@ -105,7 +105,7 @@ def order_request(request):
     })
 
 from ..models import OrderRecipientEmail
-from ...sw_catalog.models import ItemAttribute, ItemAttributeValue
+from sw_catalog.models import ItemAttribute, ItemAttributeValue
 @csrf_exempt
 def item_info(request):
   query   = request.GET or request.POST

@@ -159,7 +159,7 @@ class Order(models.Model):
     cart.order = self 
     cart.ordered = True
     cart.save()
-    from helpers import get_admin_url
+    from sw_utils.helpers import get_admin_url
     from django.contrib.sites.models import Site 
     site = Site.objects.get_current().domain
     order_admin_url = site + get_admin_url(self)

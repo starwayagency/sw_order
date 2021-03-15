@@ -64,11 +64,14 @@ def order_items(request):
     url = reverse('thank_you')
     return JsonResponse({"url":url})
   
-import json
+
 @api_view(['GET','POST'])
 def order_request(request):
+    '''
+    покупка в 1 клік
+    '''
     query = request.data
-    data = query.get('data'):
+    data = query.get('data')
     if data:
       query = json.loads(data)
     name       = query.get('name', '---')

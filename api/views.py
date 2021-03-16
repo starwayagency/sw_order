@@ -26,6 +26,9 @@ class OrderViewSet(ModelViewSet):
 @csrf_exempt
 @api_view(['GET','POST'])
 def order_items(request):
+  """
+  замовлення товарів
+  """
   query        = request.POST or request.GET
   if not query and request.body:
     query = request.body.decode('utf-8')
@@ -112,6 +115,9 @@ from ..models import OrderRecipientEmail
 from sw_catalog.models import ItemAttribute, ItemAttributeValue
 @csrf_exempt
 def item_info(request):
+  '''
+  заявка на інформацію про товар
+  '''
   query   = request.GET or request.POST
   item_id = query.get('product_id')
   if not item_id:

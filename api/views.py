@@ -16,6 +16,9 @@ from rest_framework.decorators import api_view
 
 from .serializers import *
 import json 
+from ..models import OrderRecipientEmail
+from sw_catalog.models import ItemAttribute, ItemAttributeValue
+
 
 class OrderViewSet(ModelViewSet):
   serializer_class = OrderSerializer 
@@ -111,8 +114,7 @@ def order_request(request):
       'url':reverse('thank_you'),
     })
 
-from ..models import OrderRecipientEmail
-from sw_catalog.models import ItemAttribute, ItemAttributeValue
+
 @csrf_exempt
 def item_info(request):
   '''
@@ -155,7 +157,6 @@ def item_info(request):
       "item_attribute":item_attribute,
       "item_attribute_values":item_attribute_values,
     })
-  print(attrs)
   context = {
     "attrs":attrs,
   }
@@ -170,7 +171,3 @@ def item_info(request):
   return JsonResponse({
     'status':'OK',
   })
-
-
-
-
